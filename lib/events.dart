@@ -9,6 +9,7 @@ class EventPage extends StatefulWidget {
 
 class _EventPageState extends State<EventPage> {
   int _selectedIndex = 0; // For bottom navigation
+  bool _showUpcomingEvents = true; // Track which events to display
 
   final List<Event> upcomingEvents = [
     Event("Nov 29th, 7pm (Dinner)", "Taco Bamba, Arlington, VA", "Dylan, Joel"),
@@ -17,12 +18,17 @@ class _EventPageState extends State<EventPage> {
     Event("Dec 7th, 2pm (Lunch)", "Red Bistro, Reston", "Kelly, Anne, Others"),
   ];
 
+  final List<Event> pastEvents = [
+    Event("Oct 20th, 6pm (Concert)", "The Anthem, DC", "Sarah, Emily"),
+    Event("Nov 1st, 10am (Brunch)", "Founding Farmers, Tysons", "David, Amy, John"),
+  ];
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Colors.amber[300], // Match header color
-        title: Text(
+        title: const Text(
           "Flake",
           style: TextStyle(color: Colors.black), // White title
         ),
@@ -87,9 +93,11 @@ class _EventPageState extends State<EventPage> {
           _buildSegmentedControl(), // Segmented control for Upcoming/Past
           Expanded(
             child: ListView.builder(
-              itemCount: upcomingEvents.length,
+              itemCount: _showUpcomingEvents ? upcomingEvents.length : pastEvents.length,
               itemBuilder: (context, index) {
-                return EventCard(event: upcomingEvents[index]);
+                return EventCard(
+                  event: _showUpcomingEvents ? upcomingEvents[index] : pastEvents[index],
+                );
               },
             ),
           ),
@@ -132,26 +140,30 @@ class _EventPageState extends State<EventPage> {
           Expanded(
             child: ElevatedButton(
               onPressed: () {
-                // Handle Upcoming Events tab press
+                setState(() {
+                  _showUpcomingEvents = true;
+                });
               },
               style: ElevatedButton.styleFrom(
-                backgroundColor: Colors.amber[200], // Light amber color
-                foregroundColor: Colors.black, // Text color
+                backgroundColor: _showUpcomingEvents ? Colors.amber[200] : Colors.grey[300],
+                foregroundColor: Colors.black,
               ),
-              child: Text("Upcoming Events"),
+              child: const Text("Upcoming Events"),
             ),
           ),
-          SizedBox(width: 8),
+          const SizedBox(width: 8),
           Expanded(
             child: ElevatedButton(
               onPressed: () {
-                // Handle Past Events tab press
+                setState(() {
+                  _showUpcomingEvents = false;
+                });
               },
-              child: Text("Past Events"),
               style: ElevatedButton.styleFrom(
-                backgroundColor: Colors.grey[300], // Light grey color
-                foregroundColor: Colors.black, // Text color
+                backgroundColor: !_showUpcomingEvents ? Colors.amber[200] : Colors.grey[300],
+                foregroundColor: Colors.black,
               ),
+              child: const Text("Past Events"),
             ),
           ),
         ],
@@ -181,6 +193,11 @@ class EventCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    // Split the dateAndTime string into date and title
+    List<String> parts = event.dateAndTime.split('(');
+    String date = parts[0].trim();
+    String title = parts.length > 1 ? parts[1].replaceAll(')', '').trim() : '';
+
     return Card(
       margin: const EdgeInsets.all(16),
       elevation: 4, // Add a subtle shadow
@@ -192,15 +209,22 @@ class EventCard extends StatelessWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
+            Text(
+              title,
+              style: const TextStyle(
+                fontSize: 20,
+                fontWeight: FontWeight.bold,
+              ),
+            ),
+            const SizedBox(height: 8),
             Row(
               children: [
                 Icon(Icons.calendar_today, color: Colors.amber[800]),
                 const SizedBox(width: 8),
                 Text(
-                  event.dateAndTime,
+                  date,
                   style: const TextStyle(
-                    fontSize: 18,
-                    fontWeight: FontWeight.bold,
+                    fontSize: 16,
                   ),
                 ),
               ],
