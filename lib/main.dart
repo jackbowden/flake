@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'firebase_options.dart';
 import 'business_page.dart';
+import 'login_page.dart'; // Import the LoginPage
 
 void main() async {
   // Ensure that plugin services are initialized before calling runApp.
@@ -77,6 +78,18 @@ class _MyHomePageState extends State<MyHomePage> {
       appBar: AppBar(
         backgroundColor: Theme.of(context).colorScheme.inversePrimary,
         title: Text(widget.title),
+        actions: <Widget>[
+          IconButton(
+            icon: const Icon(Icons.login),
+            tooltip: 'Login',
+            onPressed: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(builder: (context) => const LoginPage()),
+              );
+            },
+          ),
+        ],
       ),
       body: Center(
         child: _widgetOptions.elementAt(_selectedIndex),
