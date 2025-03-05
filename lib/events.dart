@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
-import 'login_page.dart'; // Import LoginPage
+import 'login_page.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'betting_dialog.dart'; // Import the betting dialog
 
 class EventPage extends StatefulWidget {
   @override
@@ -12,15 +13,15 @@ class _EventPageState extends State<EventPage> {
   bool _showUpcomingEvents = true; // Track which events to display
 
   final List<Event> upcomingEvents = [
-    Event("Nov 29th, 7pm (Dinner)", "Taco Bamba, Arlington, VA", "Dylan, Joel"),
-    Event("Dec 3rd, 5pm (Bach Party)", "AirBnb, Miami, FL", "Rob, Jackson, Others"),
-    Event("Dec 5th, 8pm (Movie Night)", "AMC Theaters, Alexandria, VA", "Micah, Michelle"),
-    Event("Dec 7th, 2pm (Lunch)", "Red Bistro, Reston", "Kelly, Anne, Others"),
+    Event("Nov 29th, 7pm (Dinner)", "Taco Bamba, Arlington, VA", ["Dylan", "Joel"]),
+    Event("Dec 3rd, 5pm (Bach Party)", "AirBnb, Miami, FL", ["Rob", "Jackson", "Others"]),
+    Event("Dec 5th, 8pm (Movie Night)", "AMC Theaters, Alexandria, VA", ["Micah", "Michelle"]),
+    Event("Dec 7th, 2pm (Lunch)", "Red Bistro, Reston", ["Kelly", "Anne", "Others"]),
   ];
 
   final List<Event> pastEvents = [
-    Event("Oct 20th, 6pm (Concert)", "The Anthem, DC", "Sarah, Emily"),
-    Event("Nov 1st, 10am (Brunch)", "Founding Farmers, Tysons", "David, Amy, John"),
+    Event("Oct 20th, 6pm (Concert)", "The Anthem, DC", ["Sarah", "Emily"]),
+    Event("Nov 1st, 10am (Brunch)", "Founding Farmers, Tysons", ["David", "Amy", "John"]),
   ];
 
   @override
@@ -181,7 +182,7 @@ class _EventPageState extends State<EventPage> {
 class Event {
   final String dateAndTime;
   final String location;
-  final String participants;
+  final List<String> participants;
 
   Event(this.dateAndTime, this.location, this.participants);
 }
@@ -198,63 +199,73 @@ class EventCard extends StatelessWidget {
     String date = parts[0].trim();
     String title = parts.length > 1 ? parts[1].replaceAll(')', '').trim() : '';
 
-    return Card(
-      margin: const EdgeInsets.all(16),
-      elevation: 4, // Add a subtle shadow
-      shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(12), // Rounded corners
-      ),
-      child: Padding(
-        padding: const EdgeInsets.all(16.0),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Text(
-              title,
-              style: const TextStyle(
-                fontSize: 20,
-                fontWeight: FontWeight.bold,
+    return GestureDetector(
+      onTap: () {
+        showDialog(
+          context: context,
+          builder: (BuildContext context) {
+            return BettingDialog(participants: event.participants);
+          },
+        );
+      },
+      child: Card(
+        margin: const EdgeInsets.all(16),
+        elevation: 4, // Add a subtle shadow
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(12), // Rounded corners
+        ),
+        child: Padding(
+          padding: const EdgeInsets.all(16.0),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Text(
+                title,
+                style: const TextStyle(
+                  fontSize: 20,
+                  fontWeight: FontWeight.bold,
+                ),
               ),
-            ),
-            const SizedBox(height: 8),
-            Row(
-              children: [
-                Icon(Icons.calendar_today, color: Colors.amber[800]),
-                const SizedBox(width: 8),
-                Text(
-                  date,
-                  style: const TextStyle(
-                    fontSize: 16,
+              const SizedBox(height: 8),
+              Row(
+                children: [
+                  Icon(Icons.calendar_today, color: Colors.amber[800]),
+                  const SizedBox(width: 8),
+                  Text(
+                    date,
+                    style: const TextStyle(
+                      fontSize: 16,
+                    ),
                   ),
-                ),
-              ],
-            ),
-            const SizedBox(height: 8),
-            Row(
-              children: [
-                Icon(Icons.location_on, color: Colors.grey[600]),
-                const SizedBox(width: 8),
-                Text(
-                  event.location,
-                  style: TextStyle(fontSize: 16, color: Colors.grey[800]),
-                ),
-              ],
-            ),
-            const SizedBox(height: 8),
-            Row(
-              children: [
-                Icon(Icons.people, color: Colors.grey[600]),
-                const SizedBox(width: 8),
-                Expanded(
-                  child: Text(
-                    '${event.participants}',
-                    style: TextStyle(fontSize: 14, color: Colors.grey[700]),
-                    overflow: TextOverflow.ellipsis,
+                ],
+              ),
+              const SizedBox(height: 8),
+              Row(
+                children: [
+                  Icon(Icons.location_on, color: Colors.grey[600]),
+                  const SizedBox(width: 8),
+                  Text(
+                    event.location,
+                    style: TextStyle(fontSize: 16, color: Colors.grey[800]),
                   ),
-                ),
-              ],
-            ),
-          ],
+                ],
+              ),
+              const SizedBox(height: 8),
+              Row(
+                children: [
+                  Icon(Icons.people, color: Colors.grey[600]),
+                  const SizedBox(width: 8),
+                  Expanded(
+                    child: Text(
+                      'Participants: ${event.participants.join(', ')}',
+                      style: TextStyle(fontSize: 14, color: Colors.grey[700]),
+                      overflow: TextOverflow.ellipsis,
+                    ),
+                  ),
+                ],
+              ),
+            ],
+          ),
         ),
       ),
     );
