@@ -23,8 +23,8 @@ class _EventPageState extends State<EventPage> {
       appBar: AppBar(
         backgroundColor: Colors.amber[300], // Match header color
         title: Text(
-          "FLAKE",
-          style: TextStyle(color: Colors.white), // White title
+          "Flake",
+          style: TextStyle(color: Colors.black), // White title
         ),
         centerTitle: true, // Center the title
         actions: [
@@ -182,17 +182,56 @@ class EventCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Card(
-      margin: EdgeInsets.all(16),
-      child: ListTile(
-        title: Text(event.dateAndTime),
-        subtitle: Column(
+      margin: const EdgeInsets.all(16),
+      elevation: 4, // Add a subtle shadow
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(12), // Rounded corners
+      ),
+      child: Padding(
+        padding: const EdgeInsets.all(16.0),
+        child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Text(event.location),
-            Text(event.participants),
+            Row(
+              children: [
+                Icon(Icons.calendar_today, color: Colors.amber[800]),
+                const SizedBox(width: 8),
+                Text(
+                  event.dateAndTime,
+                  style: const TextStyle(
+                    fontSize: 18,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+              ],
+            ),
+            const SizedBox(height: 8),
+            Row(
+              children: [
+                Icon(Icons.location_on, color: Colors.grey[600]),
+                const SizedBox(width: 8),
+                Text(
+                  event.location,
+                  style: TextStyle(fontSize: 16, color: Colors.grey[800]),
+                ),
+              ],
+            ),
+            const SizedBox(height: 8),
+            Row(
+              children: [
+                Icon(Icons.people, color: Colors.grey[600]),
+                const SizedBox(width: 8),
+                Expanded(
+                  child: Text(
+                    'Participants: ${event.participants}',
+                    style: TextStyle(fontSize: 14, color: Colors.grey[700]),
+                    overflow: TextOverflow.ellipsis,
+                  ),
+                ),
+              ],
+            ),
           ],
         ),
-        trailing: Icon(Icons.group), // Add icon to the right
       ),
     );
   }
