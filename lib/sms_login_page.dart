@@ -12,7 +12,8 @@ class _SmsLoginPageState extends State<SmsLoginPage> {
   final _phoneController = TextEditingController();
   final _codeController = TextEditingController();
   String? _verificationId;
-  bool _codeSent = false; // Track if the verification code has been sent
+  bool _codeSent = false;
+  FirebaseAuth auth = FirebaseAuth.instance;
 
   @override
   void dispose() {
@@ -26,7 +27,6 @@ class _SmsLoginPageState extends State<SmsLoginPage> {
       await FirebaseAuth.instance.verifyPhoneNumber(
         phoneNumber: _phoneController.text,
         verificationCompleted: (PhoneAuthCredential credential) async {
-          // Auto-resolution happens on Android devices
           await FirebaseAuth.instance.signInWithCredential(credential);
           Navigator.pop(context);
         },
@@ -38,7 +38,7 @@ class _SmsLoginPageState extends State<SmsLoginPage> {
         codeSent: (String verificationId, int? resendToken) {
           setState(() {
             _verificationId = verificationId;
-            _codeSent = true; // Update the state to indicate code has been sent
+            _codeSent = true;
           });
           ScaffoldMessenger.of(context).showSnackBar(
             const SnackBar(content: Text('Verification code sent!')),
@@ -67,7 +67,7 @@ class _SmsLoginPageState extends State<SmsLoginPage> {
           smsCode: _codeController.text,
         );
         await FirebaseAuth.instance.signInWithCredential(credential);
-        Navigator.pop(context); // Go back to the previous page after successful login
+        Navigator.pop(context);
       } on FirebaseAuthException catch (e) {
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(content: Text('Failed to sign in: ${e.message}')),
@@ -79,9 +79,6 @@ class _SmsLoginPageState extends State<SmsLoginPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: const Text('Login with SMS'),
-      ),
       body: Padding(
         padding: const EdgeInsets.all(16.0),
         child: Column(
@@ -96,7 +93,7 @@ class _SmsLoginPageState extends State<SmsLoginPage> {
               onPressed: _verifyPhoneNumber,
               child: const Text('Verify Phone Number'),
             ),
-            if (_codeSent) ...[ // Conditionally render the code input field
+            if (_codeSent) ...[
               const SizedBox(height: 16),
               TextFormField(
                 controller: _codeController,

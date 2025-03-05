@@ -35,12 +35,12 @@ class _LoginCarouselPageState extends State<LoginCarouselPage> {
         ],
         currentIndex: _pageController.hasClients ? _pageController.page!.round() : 0,
         onTap: (index) {
-          _pageController.animateToPage(
+                        _pageController.animateToPage(
             index,
-            duration: const Duration(milliseconds: 300),
-            curve: Curves.easeInOut,
-          );
-        },
+                          duration: const Duration(milliseconds: 300),
+                          curve: Curves.easeInOut,
+                        );
+                      },
       ),
     );
   }
