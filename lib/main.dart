@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'firebase_options.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'login_page.dart';
+import 'login_carousel_page.dart'; // Import LoginCarouselPage
 import 'events.dart'; // Import EventPage
 
 void main() async {
@@ -69,7 +69,7 @@ class HomePage extends StatelessWidget {
                       onPressed: () {
                         Navigator.push(
                           context,
-                          MaterialPageRoute(builder: (context) => const LoginPage()),
+                          MaterialPageRoute(builder: (context) => const LoginCarouselPage()),
                         );
                       },
                       child: const Text('Login'),
