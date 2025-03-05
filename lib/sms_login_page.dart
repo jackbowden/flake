@@ -13,7 +13,6 @@ class _SmsLoginPageState extends State<SmsLoginPage> {
   final _codeController = TextEditingController();
   String? _verificationId;
   bool _codeSent = false;
-  FirebaseAuth auth = FirebaseAuth.instance;
 
   @override
   void dispose() {
