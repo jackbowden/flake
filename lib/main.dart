@@ -2,7 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'firebase_options.dart';
 import 'business_page.dart';
-import 'login_page.dart'; // Import the LoginPage
+import 'login_page.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 
 void main() async {
   // Ensure that plugin services are initialized before calling runApp.
@@ -45,27 +46,6 @@ class MyHomePage extends StatefulWidget {
 class _MyHomePageState extends State<MyHomePage> {
   int _selectedIndex = 0;
 
-  static const TextStyle optionStyle =
-      TextStyle(fontSize: 30, fontWeight: FontWeight.bold);
-  static const List<Widget> _widgetOptions = <Widget>[
-    Padding(
-      padding: EdgeInsets.all(16.0),
-      child: Text(
-        'Lorem ipsum dolor sit amet, consectetur adipiscing elit. '
-        'Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. '
-        'Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris '
-        'nisi ut aliquip ex ea commodo consequat.',
-        textAlign: TextAlign.center,
-        style: TextStyle(fontSize: 16),
-      ),
-    ),
-    BusinessPage(),
-    Text(
-      'Index 2: School',
-      style: optionStyle,
-    ),
-  ];
-
   void _onItemTapped(int index) {
     setState(() {
       _selectedIndex = index;
@@ -92,7 +72,26 @@ class _MyHomePageState extends State<MyHomePage> {
         ],
       ),
       body: Center(
-        child: _widgetOptions.elementAt(_selectedIndex),
+        child: StreamBuilder<User?>(
+          stream: FirebaseAuth.instance.authStateChanges(),
+          builder: (BuildContext context, AsyncSnapshot<User?> snapshot) {
+            if (snapshot.hasData) {
+              return Text('Logged in as: ${snapshot.data!.email}');
+            } else {
+              return const Padding(
+                padding: EdgeInsets.all(16.0),
+                child: Text(
+                  'Lorem ipsum dolor sit amet, consectetur adipiscing elit. '
+                  'Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. '
+                  'Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris '
+                  'nisi ut aliquip ex ea commodo consequat.',
+                  textAlign: TextAlign.center,
+                  style: TextStyle(fontSize: 16),
+                ),
+              );
+            }
+          },
+        ),
       ),
       bottomNavigationBar: BottomNavigationBar(
         items: const <BottomNavigationBarItem>[
