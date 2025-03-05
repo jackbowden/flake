@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'login_page.dart'; // Import LoginPage
+import 'package:firebase_auth/firebase_auth.dart';
 
 class EventPage extends StatefulWidget {
   @override
@@ -26,10 +28,48 @@ class _EventPageState extends State<EventPage> {
         ),
         centerTitle: true, // Center the title
         actions: [
-          IconButton(
-            icon: Icon(Icons.notifications, color: Colors.white),
-            onPressed: () {
-              // Handle notification icon press
+          StreamBuilder<User?>(
+            stream: FirebaseAuth.instance.authStateChanges(),
+            builder: (BuildContext context, AsyncSnapshot<User?> snapshot) {
+              if (snapshot.hasData) {
+                return IconButton(
+                  icon: const Icon(Icons.logout, color: Colors.white),
+                  onPressed: () async {
+                    bool? confirmLogout = await showDialog<bool>(
+                      context: context,
+                      builder: (BuildContext context) {
+                        return AlertDialog(
+                          title: const Text('Confirm Logout'),
+                          content: const Text('Are you sure you want to log out?'),
+                          actions: <Widget>[
+                            TextButton(
+                              onPressed: () => Navigator.of(context).pop(false),
+                              child: const Text('Cancel'),
+                            ),
+                            TextButton(
+                              onPressed: () => Navigator.of(context).pop(true),
+                              child: const Text('Logout'),
+                            ),
+                          ],
+                        );
+                      },
+                    );
+                    if (confirmLogout == true) {
+                      await FirebaseAuth.instance.signOut();
+                    }
+                  },
+                );
+              } else {
+                return IconButton(
+                  icon: const Icon(Icons.login, color: Colors.white),
+                  onPressed: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(builder: (context) => const LoginPage()),
+                    );
+                  },
+                );
+              }
             },
           ),
         ],
@@ -56,6 +96,8 @@ class _EventPageState extends State<EventPage> {
         ],
       ),
       bottomNavigationBar: BottomNavigationBar(
+        backgroundColor: Colors.white, // Set background color
+        type: BottomNavigationBarType.fixed, // Set type to fixed
         items: const <BottomNavigationBarItem>[
           BottomNavigationBarItem(
             icon: Icon(Icons.home),
@@ -76,6 +118,7 @@ class _EventPageState extends State<EventPage> {
         ],
         currentIndex: _selectedIndex,
         selectedItemColor: Colors.amber[800], // Highlight selected icon
+        unselectedItemColor: Colors.black, // Set unselected item color
         onTap: _onItemTapped,
       ),
     );
