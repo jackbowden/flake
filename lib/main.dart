@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'firebase_options.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'login_page.dart';
 
 void main() async {
   // Ensure that plugin services are initialized before calling runApp.
@@ -59,9 +60,12 @@ class _EventPageState extends State<EventPage> {
         centerTitle: true, // Center the title
         actions: [
           IconButton(
-            icon: Icon(Icons.notifications, color: Colors.white),
+            icon: Icon(Icons.login, color: Colors.white),
             onPressed: () {
-              // Handle notification icon press
+              Navigator.push(
+                context,
+                MaterialPageRoute(builder: (context) => const LoginPage()),
+              );
             },
           ),
         ],
@@ -88,6 +92,8 @@ class _EventPageState extends State<EventPage> {
         ],
       ),
       bottomNavigationBar: BottomNavigationBar(
+        backgroundColor: Colors.white, // Set background color
+        type: BottomNavigationBarType.fixed, // Set type to fixed
         items: const <BottomNavigationBarItem>[
           BottomNavigationBarItem(
             icon: Icon(Icons.home),
@@ -108,6 +114,7 @@ class _EventPageState extends State<EventPage> {
         ],
         currentIndex: _selectedIndex,
         selectedItemColor: Colors.amber[800], // Highlight selected icon
+        unselectedItemColor: Colors.black, // Set unselected item color
         onTap: _onItemTapped,
       ),
     );
