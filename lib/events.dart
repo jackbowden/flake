@@ -105,7 +105,7 @@ class _EventPageState extends State<EventPage> {
           ),
           BottomNavigationBarItem(
             icon: Icon(Icons.card_giftcard),
-            label: 'Offers',
+            label: 'Invites',
           ),
           BottomNavigationBarItem(
             icon: Icon(Icons.leaderboard),

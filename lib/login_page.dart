@@ -37,6 +37,21 @@ class _LoginPageState extends State<LoginPage> {
     }
   }
 
+  // Quick login for testing purposes
+  Future<void> _quickLogin() async {
+    try {
+      await FirebaseAuth.instance.signInWithEmailAndPassword(
+        email: 'test@example.com', // Replace with a default test email
+        password: 'password', // Replace with a default test password
+      );
+      Navigator.pop(context); // Go back to the previous page after successful login
+    } on FirebaseAuthException catch (e) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text('Failed to login: ${e.message}')),
+      );
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -85,6 +100,10 @@ class _LoginPageState extends State<LoginPage> {
                   );
                 },
                 child: const Text('Register'),
+              ),
+              TextButton(
+                onPressed: _quickLogin,
+                child: const Text('Just Log Me In (Testing Only)'),
               ),
             ],
           ),

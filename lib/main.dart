@@ -59,7 +59,7 @@ class HomePage extends StatelessWidget {
                     ),
                     const SizedBox(height: 20),
                     const Text(
-                      'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.',
+                        'Flake is a new app designed to help you and your friends stay committed to your plans. No more last-minute cancellations or no-shows. Stay connected and make every event count!',
                       textAlign: TextAlign.center,
                       style: TextStyle(fontSize: 16),
                     ),
