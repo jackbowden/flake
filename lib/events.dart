@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'login_page.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'betting_dialog.dart'; // Import the betting dialog
+import 'widgets/betting_dialog.dart'; // Import the betting dialog
 
 class EventPage extends StatefulWidget {
   @override
