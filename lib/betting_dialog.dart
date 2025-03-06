@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'payment_options_screen.dart'; // Import the new screen
 
 class BettingDialog extends StatefulWidget {
   final List<String> participants;
@@ -81,9 +82,15 @@ class _BettingDialogState extends State<BettingDialog> {
         ElevatedButton(
           onPressed: () {
             if (selectedParticipant != null) {
-              // Handle the bet placement here
-              print('Bet placed on $selectedParticipant with \$$betAmount');
-              Navigator.of(context).pop();
+              // Navigate to the payment options screen
+              Navigator.of(context).push(
+                MaterialPageRoute(
+                  builder: (context) => PaymentOptionsScreen(
+                    participant: selectedParticipant!,
+                    betAmount: betAmount,
+                  ),
+                ),
+              );
             } else {
               // Show an error message if no participant is selected
               ScaffoldMessenger.of(context).showSnackBar(
