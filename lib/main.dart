@@ -4,6 +4,7 @@ import 'firebase_options.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'login_carousel_page.dart'; // Import LoginCarouselPage
 import 'events.dart'; // Import EventPage
+import 'settings_page.dart'; // Import SettingsPage
 
 void main() async {
   // Ensure that plugin services are initialized before calling runApp.

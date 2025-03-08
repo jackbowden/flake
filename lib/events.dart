@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'login_page.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'widgets/betting_dialog.dart'; // Import the betting dialog
+import 'settings_page.dart'; // Import SettingsPage
 
 class EventPage extends StatefulWidget {
   const EventPage({super.key});
@@ -178,6 +179,12 @@ class _EventPageState extends State<EventPage> {
     setState(() {
       _selectedIndex = index;
     });
+    if (index == 3) {
+      Navigator.push(
+        context,
+        MaterialPageRoute(builder: (context) => const SettingsPage()),
+      );
+    }
   }
 }
 
