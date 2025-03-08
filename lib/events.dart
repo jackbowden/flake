@@ -4,6 +4,8 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'widgets/betting_dialog.dart'; // Import the betting dialog
 
 class EventPage extends StatefulWidget {
+  const EventPage({super.key});
+
   @override
   _EventPageState createState() => _EventPageState();
 }
@@ -190,7 +192,7 @@ class Event {
 class EventCard extends StatelessWidget {
   final Event event;
 
-  const EventCard({required this.event});
+  const EventCard({super.key, required this.event});
 
   @override
   Widget build(BuildContext context) {

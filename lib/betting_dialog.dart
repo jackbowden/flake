@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import '../screens/payment_options_screen.dart'; // Import the new screen
+import 'payment_options_screen.dart'; // Import the new screen
 
 class BettingDialog extends StatefulWidget {
   final List<String> participants;
