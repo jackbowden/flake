@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'login_page.dart'; // Import LoginPage
 import 'package:firebase_auth/firebase_auth.dart';
+import 'settings_page.dart'; // Import SettingsPage
 
 class EventPage extends StatefulWidget {
   @override
@@ -175,6 +176,12 @@ class _EventPageState extends State<EventPage> {
     setState(() {
       _selectedIndex = index;
     });
+    if (index == 3) {
+      Navigator.push(
+        context,
+        MaterialPageRoute(builder: (context) => const SettingsPage()),
+      );
+    }
   }
 }
 
