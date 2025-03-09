@@ -63,6 +63,37 @@ To run this project, you need to have Flutter and the Firebase CLI installed on 
    flutter run
    ```
 
+## Deployment via Firebase
+
+To deploy the Flutter web app using Firebase Hosting, follow these steps:
+
+1. **Build the Flutter Web App**:
+   Build the Flutter web app by running:
+   ```sh
+   flutter build web
+   ```
+   This command generates the web build in the `build/web` directory.
+
+2. **Deploy to Firebase Hosting**:
+
+   - **Deploy to the main website**:
+     To deploy to the main website, use the following command:
+     ```sh
+     firebase deploy
+     ```
+
+   - **Deploy to a preview channel**:
+     To deploy to a preview channel (e.g., staging), use the following command:
+     ```sh
+     firebase hosting:channel:deploy staging
+     ```
+     **Best Practices for Naming Preview Channels**:
+       - Use descriptive names like `staging`, `dev`, or `feature-branch-name`.
+       - Choose names that indicate the purpose or environment of the channel.
+       - Keep names consistent across your team.
+
+Now your Flutter web app is deployed on Firebase Hosting!
+
 ## Main Components
 
 ### main.dart
