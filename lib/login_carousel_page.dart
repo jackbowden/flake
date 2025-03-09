@@ -3,7 +3,7 @@ import 'login_page.dart';
 import 'sms_login_page.dart';
 
 class LoginCarouselPage extends StatefulWidget {
-  const LoginCarouselPage({Key? key}) : super(key: key);
+  const LoginCarouselPage({super.key});
 
   @override
   _LoginCarouselPageState createState() => _LoginCarouselPageState();

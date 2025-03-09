@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 
 class SmsLoginPage extends StatefulWidget {
-  const SmsLoginPage({Key? key}) : super(key: key);
+  const SmsLoginPage({super.key});
 
   @override
   _SmsLoginPageState createState() => _SmsLoginPageState();
