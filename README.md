@@ -65,7 +65,13 @@ To run this project, you need to have Flutter and the Firebase CLI installed on 
 
 ## Deployment via Firebase
 
-To deploy the Flutter web app using Firebase Hosting, follow these steps:
+./deploy/deploy.sh or, if on Windows, ./deploy/deploy.bat is a script that automates the deployment process to Firebase Hosting. This is the preferred way to deploy. It performs the following steps: 
+   - **Build the Flutter Web App**: It runs `flutter build web` to generate the web build.
+   - **Deploy to Firebase Hosting**: It uses the Firebase CLI to deploy the web build to Firebase Hosting.
+    - **Deploy to the main website**: It deploys the web build to the main website.
+    - **Deploy to a preview channel**: It deploys the web build to a preview channel (e.g., staging).
+
+If the above doesn't work, or you prefer fate in your own hands, follow these steps:
 
 1. **Build the Flutter Web App**:
    Build the Flutter web app by running:
@@ -75,11 +81,17 @@ To deploy the Flutter web app using Firebase Hosting, follow these steps:
    This command generates the web build in the `build/web` directory.
 
 2. **Deploy to Firebase Hosting**:
-
+   
    - **Deploy to the main website**:
+     Before deploying to the main website, ensure you are on the `main` branch:
+     ```sh
+     git checkout main
+     ```
+     Please do not deploy to the `main` branch unless you are ready to release the app. Only the `main` branch should be deployed to the main website.
+     
      To deploy to the main website, use the following command:
      ```sh
-     firebase deploy
+     ./deploy.sh
      ```
 
    - **Deploy to a preview channel**:
